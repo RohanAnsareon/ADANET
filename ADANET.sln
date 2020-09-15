@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADANET", "ADANET\ADANET.csproj", "{0381CCAB-C6A0-44C7-86EA-947A00DFC5FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADANET_FRAMEWORK", "ADANET_FRAMEWORK\ADANET_FRAMEWORK.csproj", "{FD929732-76BA-4CE5-B730-7061EA83604B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0381CCAB-C6A0-44C7-86EA-947A00DFC5FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0381CCAB-C6A0-44C7-86EA-947A00DFC5FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0381CCAB-C6A0-44C7-86EA-947A00DFC5FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0381CCAB-C6A0-44C7-86EA-947A00DFC5FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD929732-76BA-4CE5-B730-7061EA83604B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD929732-76BA-4CE5-B730-7061EA83604B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD929732-76BA-4CE5-B730-7061EA83604B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD929732-76BA-4CE5-B730-7061EA83604B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
