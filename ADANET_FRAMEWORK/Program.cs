@@ -17,23 +17,25 @@ namespace ADANET_FRAMEWORK
 
          var repo = new UserRepo(connectionString);
 
-         var id = repo.Create(new User
-         {
-            Name = "Nikolay",
-            Age = 24
-         });
+         repo.DeleteMultiple(new List<int> { 1, 3, 5 });
 
-         Console.WriteLine(repo.Read(id));
+         //var id = repo.Create(new User
+         //{
+         //   Name = "Nikolay",
+         //   Age = 24
+         //});
 
-         repo.Update(id, new User
-         {
-            Name = "John Doe",
-            Age = 25
-         });
+         //Console.WriteLine(repo.Read(id));
 
-         Console.WriteLine(repo.Read(id));
+         //repo.Update(id, new User
+         //{
+         //   Name = "John Doe",
+         //   Age = 25
+         //});
 
-         repo.Delete(id);
+         //Console.WriteLine(repo.Read(id));
+
+         //repo.Delete(id);
       }
    }
 }

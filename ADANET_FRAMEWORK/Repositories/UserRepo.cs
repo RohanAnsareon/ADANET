@@ -37,7 +37,7 @@ namespace ADANET_FRAMEWORK.Repos {
                command.Parameters.Add(nameParam);
 
 
-               command.Parameters.AddWithValue("@Age", user.Age); 
+               command.Parameters.AddWithValue("@Age", user.Age);
                #endregion
 
                #region OutputParam
@@ -60,23 +60,18 @@ namespace ADANET_FRAMEWORK.Repos {
          }
       }
 
-      public User Read(int id)
-      {
+      public User Read(int id) {
          var sql = @"SELECT * FROM [dbo].[User] WHERE Id = @Id";
 
-         using (var connection = new SqlConnection(this.connString))
-         {
+         using (var connection = new SqlConnection(this.connString)) {
             connection.Open();
-            using (var command = new SqlCommand(sql, connection))
-            {
+            using (var command = new SqlCommand(sql, connection)) {
                command.Parameters.AddWithValue("@Id", id);
 
-               using (var reader = command.ExecuteReader())
-               {
+               using (var reader = command.ExecuteReader()) {
                   reader.Read();
 
-                  return new User
-                  {
+                  return new User {
                      Id = Convert.ToInt32(reader["Id"]),
                      Name = reader["Name"].ToString(),
                      Age = Convert.ToInt32(reader["Age"])
@@ -86,16 +81,63 @@ namespace ADANET_FRAMEWORK.Repos {
          }
       }
 
-      public void Update(int id, User user)
-      {
-         var sql = @"UPDATE [dbo].[User] SET [Name] = @Name, [Age] = @Age WHERE Id = @Id";
+      public List<User> GetAll() {
+         var sql = @"SELECT * FROM [dbo].[User]";
 
-         using (var connection = new SqlConnection(this.connString))
-         {
+         using (var connection = new SqlConnection(this.connString)) {
             connection.Open();
 
-            using (var command = new SqlCommand(sql, connection))
-            {
+            var users = new List<User>();
+
+            using (var command = new SqlCommand(sql, connection)) {
+               using (var reader = command.ExecuteReader()) {
+                  while (reader.Read()) {
+                     users.Add(new User {
+                        Id = Convert.ToInt32(reader["Id"]),
+                        Name = reader["Name"].ToString(),
+                        Age = Convert.ToInt32(reader["Age"])
+                     });
+                  }
+               }
+            }
+
+            return users;
+         }
+      }
+
+      public List<User> GetByName(string name) {
+         var sql = @"SELECT * FROM [dbo].[User] WHERE Name = @Name";
+
+         using (var connection = new SqlConnection(this.connString)) {
+            connection.Open();
+
+            var users = new List<User>();
+
+            using (var command = new SqlCommand(sql, connection)) {
+               command.Parameters.AddWithValue("@Name", name);
+
+               using (var reader = command.ExecuteReader()) {
+                  while (reader.Read()) {
+                     users.Add(new User {
+                        Id = Convert.ToInt32(reader["Id"]),
+                        Name = reader["Name"].ToString(),
+                        Age = Convert.ToInt32(reader["Age"])
+                     });
+                  }
+               }
+            }
+
+            return users;
+         }
+      }
+
+      public void Update(int id, User user) {
+         var sql = @"UPDATE [dbo].[User] SET [Name] = @Name, [Age] = @Age WHERE Id = @Id";
+
+         using (var connection = new SqlConnection(this.connString)) {
+            connection.Open();
+
+            using (var command = new SqlCommand(sql, connection)) {
                command.Parameters.AddWithValue("@Id", id);
                command.Parameters.AddWithValue("@Name", user.Name);
                command.Parameters.AddWithValue("@Age", user.Age);
@@ -105,18 +147,61 @@ namespace ADANET_FRAMEWORK.Repos {
          }
       }
 
-      public void Delete(int id)
-      {
+      public void Delete(int id) {
          var sql = @"DELETE FROM [dbo].[User]
                      WHERE Id = @Id";
 
-         using (var connection = new SqlConnection(this.connString))
-         {
+         using (var connection = new SqlConnection(this.connString)) {
             connection.Open();
-            using (var command = new SqlCommand(sql, connection))
-            {
+            using (var command = new SqlCommand(sql, connection)) {
                command.Parameters.AddWithValue("@Id", id);
 
+               if (command.ExecuteNonQuery() == 0)
+                  throw new Exception("User was not deleted");
+            }
+         }
+      }
+
+      public void DeleteMultiple(List<int> ids) {
+         //#region SqlExpression
+         //var sql = string.Empty;
+
+         //sql += @"DELETE FROM [dbo].[User_1] WHERE Id in (";
+
+         //for (int i = 0; i < ids.Count; i++) {
+         //   sql += $"@Id{i}{(i < ids.Count - 1 ? "," : string.Empty)} ";
+         //}
+
+         //sql += ")";
+         //#endregion
+
+         //using (var connection = new SqlConnection(this.connString)) {
+         //   connection.Open();
+
+         //   using (var command = new SqlCommand(sql, connection)) {
+
+         //      for (int j = 0; j < ids.Count; j++) {
+         //         command.Parameters.AddWithValue($"@Id{j}", ids[j]);
+         //      }
+
+         //      if (command.ExecuteNonQuery() == 0) throw new Exception("There are no changes in user table");
+         //   }
+         //}
+
+         var parameters = new string[ids.Count];
+
+         for (int i = 0; i < ids.Count; i++) {
+            parameters[i] = string.Format("@Id{0}", i);
+         }
+
+         var sql = @"DELETE FROM [dbo].[User] WHERE Id IN(" + string.Join(", ", parameters) + ")";
+
+         using (var connection = new SqlConnection(this.connString)) {
+            connection.Open();
+            using (var command = new SqlCommand(sql, connection)) {
+               for (int i = 0; i < ids.Count; i++) {
+                  command.Parameters.AddWithValue(parameters[i], ids[i]);
+               }
                if (command.ExecuteNonQuery() == 0)
                   throw new Exception("User was not deleted");
             }
