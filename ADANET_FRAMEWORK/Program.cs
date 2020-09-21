@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 namespace ADANET_FRAMEWORK {
     class Program {
         static void Main(string[] args) {
-            var connectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+            var connString = ConfigurationManager.ConnectionStrings["Default"];
 
-            var repo = new UserRepo(connectionString);
+            var repo = new UserRepo(connString);
 
-            repo.DeleteMultipleWithTransaction(new List<int> { 22, 23, 24, -5 });
+            //repo.DeleteMultipleWithTransaction(new List<int> { 22, 23, 24, -5 });
 
-            //var id = repo.Create(new User
-            //{
-            //   Name = "Nikolay",
-            //   Age = 24
-            //});
+            var id = repo.Create(new User
+            {
+                Name = "Nikolay",
+                Age = 24
+            });
 
             //Console.WriteLine(repo.Read(id));
 
